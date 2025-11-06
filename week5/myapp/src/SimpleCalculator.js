@@ -35,6 +35,7 @@ width: '100%', marginBottom: '10px' }} />
  <option value="+">Add</option>
  <option value="-">Subtract</option>
  <option value="*">Multiply</option>
+ <option value="/">Divide</option>
  </select>
  <input type="number" id="num2" placeholder="Second Number" style={{
 width: '100%', marginBottom: '10px' }} />

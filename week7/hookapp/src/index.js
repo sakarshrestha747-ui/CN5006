@@ -1,21 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
+
 import reportWebVitals from './reportWebVitals';
 import Hook_ControlledButtonState from './Counter.js'
-import EmojeeCounter from './EmojeeCounters'
+
+import WeatherMoodWidgetApp from './WeatherMoodWidgetApp';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
   <Hook_ControlledButtonState/>
- <EmojeeCounter pic='Love'/>
- <EmojeeCounter pic='sad'/>
-<EmojeeCounter pic='Like'/>
+ <WeatherMoodWidgetApp pic='sunny'/>
+ <WeatherMoodWidgetApp pic='rainy'/>
+<WeatherMoodWidgetApp pic='cloudy'/>
   </React.StrictMode>
 );
+ document.getElementById('root')
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

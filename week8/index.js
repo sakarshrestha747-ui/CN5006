@@ -1,31 +1,61 @@
-mongoose = require('mongoose');
-//app = express();
-const MONGO_URI = 'mongodb://localhost:27017/Week8';
-mongoose.connect(MONGO_URI, {useUnifiedTopology: true,useNewUrlParser: true}); const db = mongoose.connection;
-db.on('error', function(err)
-{console.log("Error occured during connection"+err)
+const mongoose = require('mongoose');
+
+// Your MongoDB Atlas URI
+const MONGO_URI = 'mongodb+srv://admin:admin@cluster0.bmagmlk.mongodb.net/week8';
+
+async function main() {
+    try {
+        // Connect to MongoDB (NO OPTIONS NEEDED in Mongoose 7+)
+        await mongoose.connect(MONGO_URI);
+        console.log("✅ Connected to MongoDB Atlas");
+
+        // Define Schema
+        const PersonSchema = new mongoose.Schema({
+            name: { type: String, required: true },
+            age: Number,
+            Gender: String,
+            Salary: Number
+        });
+
+        // Create Model
+        const Person = mongoose.model('Person', PersonSchema, 'personCollection');
+
+        // ===============================
+        // TASK 1: Insert Single Document
+        // ===============================
+        console.log("\n=== TASK 1: Adding Single Document ===");
+
+        const doc1 = new Person({
+            name: "Sakar",
+            age: 21,
+            Gender: "Male",
+            Salary: 3456
+        });
+
+        await doc1.save();
+        console.log("🎉 New person added:", doc1.name);
+
+         // ==========================================
+        // TASK 2: Adding multiple documents
+        // ==========================================
+        console.log("\n=== TASK 2: Adding Multiple Documents ===");
+        const manypersons = [
+            { name: 'Simon', age: 42, Gender: "Male", Salary: 3456 },
+            { name: 'Neesha', age: 23, Gender: "Female", Salary: 1000 },
+            { name: 'Mary', age: 27, Gender: "Female", Salary: 5402 },
+            { name: 'Mike', age: 40, Gender: "Male", Salary: 4519 }
+        ];
+
+        const insertResult = await Person.insertMany(manypersons);
+        console.log (`Data inserted: ${insertResult.length} documents added`);
+
+
+    } catch (error) {
+        console.error("❌ Error occurred:", error);
+    } finally {
+        await mongoose.connection.close();
+        console.log("\n🔌 Database connection closed");
+    }
 }
-);
-db.once('connected', function() {
-console.log(`Connected to ${MONGO_URI}`);
-});
-// creating the scheme
-const PersonScheme = new mongoose.Schema({ name: {
-type: String, required: true
-},
-age: Number, Gender:String, Salary:Number
-});
-// creating model named as modelname with collection named as personCollection
-const person_doc = mongoose.model('modelname', PersonScheme,'personCollection');
-// creating a single document
-const doc1 = new person_doc({ name: 'Jacky',age:362,Gender:"Male",Salary:3456 }
-);
-// adding one document in the collection
-doc1
-.save()
- .then((doc1) => {
- console.log("New Article Has been Added Into Your DataBase.",doc1);
- })
- .catch((err) => {
- console.error(err);
- });
+
+main();

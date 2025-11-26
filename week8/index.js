@@ -48,6 +48,82 @@ async function main() {
 
         const insertResult = await Person.insertMany(manypersons);
         console.log (`Data inserted: ${insertResult.length} documents added`);
+        // ==========================================
+        // TASK 3: Fetch all documents (with limit 5)
+        // ==========================================
+        console.log("\n=== TASK 3: Fetching All Documents (Limited to 5) ===");
+        const allDocs = await Person.find()
+            .sort({ Salary: 1 })
+            .select('name Salary age')
+            .limit(5)
+            .exec();
+
+        allDocs.forEach(doc =>
+            console.log(`Name: ${doc.name}, Age: ${doc.age}, Salary: ${doc.Salary}`)
+        );
+
+        // ==========================================
+        // TASK 4: Find with filtering criteria
+        // ==========================================
+        console.log("\n=== TASK 4: Finding Females Age > 25 ===");
+        const givenage = 25;
+
+        const filteredDocs = await Person.find({
+            Gender: "Female",
+            age: { $gte: givenage }
+        })
+            .sort({ Salary: 1 })
+            .select('name Salary age')
+            .limit(10)
+            .exec();
+
+        filteredDocs.forEach(doc =>
+            console.log(`Name: ${doc.name}, Age: ${doc.age}, Salary: ${doc.Salary}`)
+        );
+
+         // ==========================================
+        // TASK 5: Count total documents
+        // ==========================================
+        console.log("\n=== TASK 5: Counting Total Documents ===");
+        const totalCount = await Person.countDocuments().exec();
+        console.log("Total documents Count:", totalCount);
+
+        // ==========================================
+        // TASK 6: Delete documents (age >= 25)
+        // ==========================================
+        console.log("\n=== TASK 6: Deleting Documents (Age >= 25) ===");
+        const deleteResult = await Person.deleteMany({ age: { $gte: 25 } }).exec();
+        console.log("Deleted documents count:", deleteResult.deletedCount);
+
+                // ==========================================
+        // TASK 7: Update documents (set salary for females)
+        // ==========================================
+        console.log("\n=== TASK 7: Updating Female Salaries to 5555 ===");
+
+        // Add sample female data back
+        await Person.insertMany([
+            { name: 'Sarah', age: 28, Gender: "Female", Salary: 3000 },
+            { name: 'Lisa', age: 32, Gender: "Female", Salary: 4000 }
+        ]);
+
+        const updateResult = await Person.updateMany(
+            { Gender: "Female" },
+            { Salary: 5555 }
+        ).exec();
+
+        console.log("Updated documents count:", updateResult.modifiedCount);
+
+        const updatedFemales = await Person.find({ Gender: "Female" })
+            .select('name Salary age')
+            .exec();
+
+        console.log("Updated female records:");
+        updatedFemales.forEach(doc =>
+            console.log(`Name: ${doc.name}, Age: ${doc.age}, Salary: ${doc.Salary}`)
+        );
+
+
+
 
 
     } catch (error) {

@@ -3,17 +3,14 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import FacebookEmojiCounter from './ Facebookemoji';
-import ToggleMode from './ToggleModeComponent';
+import KeyPadComponent from './Calculator';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-   <FacebookEmojiCounter type= "Like"/>
-  <FacebookEmojiCounter type= "Love"/> 
-  <FacebookEmojiCounter type= "happy"/>
-  <ToggleMode/>
+    <KeyPadComponent />
+    
   </React.StrictMode>
 );
 

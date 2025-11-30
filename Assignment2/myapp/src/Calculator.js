@@ -91,7 +91,7 @@ function Calculator() {
             </div>
             
             {/* New buttons for Task 2 and 3 */}
-            <div>
+            <div className="extra-buttons-row">
                 <Button label="show me" ClickHandle={ClickHandle}/>
                 <Button label="square" ClickHandle={ClickHandle}/>
             </div>
